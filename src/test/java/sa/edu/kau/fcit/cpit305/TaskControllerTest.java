@@ -17,6 +17,13 @@ class TaskControllerTest {
     void setUp() throws SQLException {
         taskController = new TaskController();
         connection = DatabaseConnection.getInstance().getConnection();
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute("CREATE TABLE IF NOT EXISTS tasks (" +
+                    "id SERIAL PRIMARY KEY," +
+                    "title VARCHAR(255) NOT NULL," +
+                    "completed BOOLEAN DEFAULT FALSE," +
+                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
+        }
     }
 
     @AfterEach
